@@ -313,7 +313,7 @@ if __name__ == '__main__':
     #delete_tb_user(cursor_db, conex_db)
 
     # Procurando por informações nos jogos (Mateus)
-    Procurar_ID_Jogo()
+    #Procurar_ID_Jogo()
     #Procurar_Nome()
     #Procurar_Preco()
     #Procurar_Idade()
