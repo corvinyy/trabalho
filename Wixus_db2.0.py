@@ -63,7 +63,7 @@ def Procurar_ID_Jogo():
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
     for row in rows:
-        print(row)
+        print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etaria: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | plataformas: {row[6]} | Genero: {row[7]} |')
 
 
 def Procurar_Nome():
@@ -313,7 +313,7 @@ if __name__ == '__main__':
     #delete_tb_user(cursor_db, conex_db)
 
     # Procurando por informações nos jogos (Mateus)
-    #Procurar_ID_Jogo()
+    Procurar_ID_Jogo()
     #Procurar_Nome()
     #Procurar_Preco()
     #Procurar_Idade()
