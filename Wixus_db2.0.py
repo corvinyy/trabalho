@@ -223,11 +223,13 @@ def delete_tb_user(cursor_db, conex_db):
 
 def create_tb_cart(cursor_db):
     create = '''CREATE TABLE IF NOT EXISTS tb_cart(
-            id_cart INT NOT NULL AUTO_INCREMENT,
-            preco_total INT NOT NULL,
+            id_cart INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            id_jogos INT NOT NULL,
+            id_user INT NOT NULL,
+            preco_uni DECIMAL(9,2),
             forma_pagamento VARCHAR(30),
-            PRIMARY KEY (id_cart),
-            FOREIGN KEY (id_cart) REFERENCES tb_user(id_user)
+            FOREIGN KEY (id_jogos) REFERENCES tb_jogos(id_jogo),
+            FOREIGN KEY (id_user) REFERENCES tb_user(id_user)
             )'''
     cursor_db.execute(create)
     print("Tabela Cart criada")
@@ -238,9 +240,7 @@ def Insert_table_cart(cursor_db, conex_db):
     INSERT INTO tb_cart (preco_total, forma_pagamento)
     VALUES (%s, %s)
     '''
-    dados = input('Digite o preço total do carrinho: '), \
-        input('Digite a forma de pagamento: ')
-    dados = tuple(dados)
+    dados = input('Digite a forma de pagamento: ')
     cursor_db.execute(sql, dados)
     conex_db.commit()
     print('Dados do cartão inseridos')
@@ -274,6 +274,14 @@ def delete_tb_cart(cursor_db, conex_db):
     print(f'Dados do carrinho com ID {escolha} deletados')
 
 
+def preco_total(cursor_db, conex_db):
+    sql = '''SELECT id_cart,
+    SUM(preco_uni) AS total
+    from tb_cart
+    group by id_cart'''
+    cursor_db.execute(sql)
+    conex_db.commit()
+
 # ---------------------------------------------GERAL---------------------------------------------------------
 
 def Ver_tudo():
@@ -300,7 +308,7 @@ if __name__ == '__main__':
     # Insertando dados nas tabelas (Rafael)
     #Insert_table_jogos(cursor_db, conex_db)
     #Insert_table_user(cursor_db, conex_db)
-    #Insert_table_cart(cursor_db, conex_db)
+    Insert_table_cart(cursor_db, conex_db)
 
     # Atualizando os dados nas tabelas (Rafael)
     #Update_tb_jogos(cursor_db, conex_db)
@@ -328,6 +336,9 @@ if __name__ == '__main__':
 
     # Procurar informações no carrinho (Mateus)
     #Procurar_Produtos()
+    
+    #Retorna o valor total dos jogos no carrinho (Ricardo)
+    #preco_total()
 
     # Ver tudo (Mateus)
     #Ver_tudo()
