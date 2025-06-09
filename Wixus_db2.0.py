@@ -14,7 +14,7 @@ def conection_db():
         user='root',
         host='localhost',
         database='db_Wixus',
-        password='ceub123456'
+        password='123456'
     )
 
     print("Conexão concluida")
