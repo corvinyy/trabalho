@@ -1,6 +1,5 @@
 import mysql.connector
 
-
 def create_db():
     create = '''CREATE DATABASE IF NOT EXISTS db_Wixus'''
     cursor_db.execute(create)
@@ -236,14 +235,27 @@ def create_tb_cart(cursor_db):
 
 
 def Insert_table_cart(cursor_db, conex_db):
-    sql = '''
-    INSERT INTO tb_cart (preco_total, forma_pagamento)
-    VALUES (%s, %s)
-    '''
-    dados = input('Digite a forma de pagamento: ')
-    cursor_db.execute(sql, dados)
-    conex_db.commit()
-    print('Dados do cartão inseridos')
+
+    forma_pagamento = input("Digite a forma de pagamento: ")
+    id_jogos = int(input('Digite o ID jogo que deseja adicionar ao carrinho: '))
+    id_user = int(input("Digite o id do usuario: "))
+    cursor_db.execute("SELECT price, name FROM tb_jogos WHERE id_jogo = %s", (id_jogos,))
+    linha = cursor_db.fetchone()
+
+    if linha:
+        preco, name = linha
+
+        print(preco)
+
+        insert_query = '''
+        INSERT INTO tb_cart (id_jogos, id_user, preco_uni, forma_pagamento)
+        VALUES (%s, %s, %s, %s)
+        '''
+        cursor_db.execute(insert_query, (id_jogos, id_user, preco, forma_pagamento))
+        conex_db.commit()
+        print("Jogo adicionado ao carrinho com sucesso")
+    else:
+        print("Não foi possivel encontrar um jogo com esse ID.")
 
 
 def Procurar_Produtos():
@@ -303,7 +315,7 @@ if __name__ == '__main__':
     #create_db()
     #create_tb_jogos(cursor_db)
     #create_tb_user(cursor_db)
-    #create_tb_cart(cursor_db)
+    create_tb_cart(cursor_db)
 
     # Insertando dados nas tabelas (Rafael)
     #Insert_table_jogos(cursor_db, conex_db)
