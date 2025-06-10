@@ -65,7 +65,7 @@ def Procurar_ID_Jogo():
         print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etaria: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | plataformas: {row[6]} | Genero: {row[7]} |')
 
 
-def Procurar_Nome():
+def Procurar_Nome_Jogo():
     Escolha = input("Digite o nome do jogo: ")
     sql = f''' SELECT * FROM tb_jogos WHERE name = "{Escolha}" '''
     cursor_db.execute(sql)
@@ -181,7 +181,7 @@ def Insert_table_user(cursor_db, conex_db):
     print('Dados do usuario inseridos')
 
 
-def Procurar_Nome():
+def Procurar_Nome_Usuario():
     Escolha = input("Digite o nome do usuário: ")
     sql = f''' SELECT * FROM tb_user WHERE nome = "{Escolha}" '''
     cursor_db.execute(sql)
@@ -243,9 +243,7 @@ def Insert_table_cart(cursor_db, conex_db):
     linha = cursor_db.fetchone()
 
     if linha:
-        preco, name = linha
-
-        print(preco)
+        preco = linha
 
         insert_query = '''
         INSERT INTO tb_cart (id_jogos, id_user, preco_uni, forma_pagamento)
@@ -286,13 +284,21 @@ def delete_tb_cart(cursor_db, conex_db):
     print(f'Dados do carrinho com ID {escolha} deletados')
 
 
-def preco_total(cursor_db, conex_db):
-    sql = '''SELECT id_cart,
-    SUM(preco_uni) AS total
-    from tb_cart
-    group by id_cart'''
-    cursor_db.execute(sql)
-    conex_db.commit()
+def preco_total():
+    id_user = int(input("Digite o ID do usuário: "))
+
+    sql = '''SELECT SUM(preco_uni) AS total
+        FROM tb_cart
+        WHERE id_user = %s
+        '''
+    cursor_db.execute(sql, (id_user,))
+    resultado = cursor_db.fetchone()
+
+    if resultado[0] is not None:
+        print(f"Total do usuário {id_user}: R$ {resultado[0]}")
+    else:
+        print(f"Usuário {id_user} não encontrado ou carrinho vazio.")
+    
 
 # ---------------------------------------------GERAL---------------------------------------------------------
 
@@ -311,16 +317,146 @@ if __name__ == '__main__':
     conex_db = conection_db()
     cursor_db = conex_db.cursor()
 
+    def linha():
+        print("="*90)
+
+    def Menu():
+        while True:
+            linha()
+            try:
+                escolha = int(input("""Escolha a funcionalidade desejada: 
+
+    [1] - Procure um jogo
+    [2] - Procure um usuário
+    [3] - Carrinho
+
+    [0] - Funcionalidades de desenvolvedor
+    """))
+                linha()
+            except ValueError:
+                print("Valor inválido")
+            
+            if escolha == 1:
+                Info_Jogos()
+                
+            if escolha == 2:
+                Info_Usuario()
+            
+            if escolha == 0:
+                Funcoes_Dev()
+                
+    def Info_Jogos():
+        try:
+            escolha = int(input("""Escolha uma das opções: 
+
+    [1] - ID
+    [2] - Nome
+    [3] - Preço
+    [4] - Faixa etária
+    [5] - Gênero
+    """))
+            
+            linha()
+            if escolha == 1:
+                Procurar_ID_Jogo()
+            elif escolha == 2:
+                Procurar_Nome_Jogo()
+            elif escolha == 3:
+                Procurar_Preco()
+            elif escolha == 4: 
+                Procurar_Idade()
+            elif escolha == 5:
+                Procurar_Genero()
+                
+        except ValueError:
+            print("Valor inválido")
+
+    def Info_Usuario():
+        try:
+            escolha = int(input("""Escolha uma das opções: 
+
+    [1] - ID
+    [2] - Nome         
+    """))
+
+            linha()
+            if escolha == 1:
+                Procurar_ID_Usuario()
+            elif escolha == 2:
+                Procurar_Nome_Usuario()
+
+        except ValueError:
+            print("Valor inválido")
+
+    def Funcoes_Dev():
+        try:
+            escolha = int(input("""Escolha uma das opções: 
+
+    [1] - Jogo
+    [2] - Usuário
+    """))
+
+            if escolha == 1:
+                Funcoes_Jogo()
+            elif escolha == 2:
+                Funcoes_Usuario()
+                
+        except ValueError:
+            print("Valor inválido")
+
+    def Funcoes_Jogo():
+        try:
+            escolha = int(input("""Escolha uma das opções: 
+
+    [1] - Inserir 
+    [2] - Remover      
+    [3] - Atualizar
+    """))
+
+            linha()
+            if escolha == 1:
+                Insert_table_jogos()
+            elif escolha == 2:
+                delete_tb_jogos()
+            elif escolha == 3:
+                Update_tb_jogos()
+
+        except ValueError:
+            print("Valor inválido")
+        
+    def Funcoes_Usuario():
+        try:
+            escolha = int(input("""Escolha uma das opções: 
+
+    [1] - Inserir 
+    [2] - Remover      
+    [3] - Atualizar
+    """))
+
+            linha()
+            if escolha == 1:
+                Insert_table_user(cursor_db, conex_db)
+            elif escolha == 2:
+                delete_tb_user()
+            elif escolha == 3:
+                Update_tb_user()
+
+        except ValueError:
+            print("Valor inválido")
+    
+
+    Menu()
+
     # Criando as tabelas (Ricardo)
     #create_db()
     #create_tb_jogos(cursor_db)
     #create_tb_user(cursor_db)
-    create_tb_cart(cursor_db)
+    #create_tb_cart(cursor_db)
 
     # Insertando dados nas tabelas (Rafael)
     #Insert_table_jogos(cursor_db, conex_db)
     #Insert_table_user(cursor_db, conex_db)
-    Insert_table_cart(cursor_db, conex_db)
+    #Insert_table_cart(cursor_db, conex_db)
 
     # Atualizando os dados nas tabelas (Rafael)
     #Update_tb_jogos(cursor_db, conex_db)
@@ -334,7 +470,7 @@ if __name__ == '__main__':
 
     # Procurando por informações nos jogos (Mateus)
     #Procurar_ID_Jogo()
-    #Procurar_Nome()
+    #Procurar_Nome_Jogo()
     #Procurar_Preco()
     #Procurar_Idade()
     #Procurar_developer()
