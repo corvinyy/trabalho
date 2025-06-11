@@ -224,8 +224,12 @@ def Procurar_Nome_Usuario():
     sql = f''' SELECT * FROM tb_user WHERE nome = "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(row)
+
+    if len(rows) == 0:
+        print("Nenhum usuário encontrado com o Nome informado.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
 
 
 def Procurar_ID_Usuario():
@@ -233,8 +237,12 @@ def Procurar_ID_Usuario():
     sql = f''' SELECT * FROM tb_user WHERE id_user = "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(row)
+
+    if len(rows) == 0:
+        print("Nenhum usuário encontrado com o ID informado.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
 
 
 def Update_tb_user(cursor_db, conex_db):
@@ -299,8 +307,12 @@ def Procurar_Produtos():
     sql = f''' SELECT * FROM tb_carrinho_compras WHERE id_cart = "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(row)
+
+    if len(rows) == 0:
+        print("Nenhum carrinho encontrado com o ID informado.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')           
 
 
 def Update_tb_cart(cursor_db, conex_db):
