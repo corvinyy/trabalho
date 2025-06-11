@@ -128,4 +128,6 @@ def Funcoes_Usuario():
         print("Valor inválido")
 
 if __name__ == "__main__":
+    conex_db = conection_db()
+    cursor_db = conex_db.cursor()
     Menu()   

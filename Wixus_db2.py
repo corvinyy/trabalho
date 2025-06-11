@@ -67,44 +67,64 @@ def Procurar_ID_Jogo():
     sql = f''' SELECT * FROM tb_jogos WHERE id_jogo = "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etaria: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | plataformas: {row[6]} | Genero: {row[7]} |')
+
+    if len(rows) == 0:
+        print("Nenhum jogo encontrado com o ID informado.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
 
 
 def Procurar_Nome_Jogo():
-    Escolha = input("Digite o nome do jogo: ")
+    Escolha = input("Digite o Nome do jogo: ")
     sql = f''' SELECT * FROM tb_jogos WHERE name = "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(row)
 
+    if len(rows) == 0:
+        print("Nenhum jogo encontrado com o Nome informado.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
+            
 
 def Procurar_Preco():
     Escolha = input("Digite o preço máximo do jogo: ")
     sql = f''' SELECT * FROM tb_jogos WHERE price <= "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(row)
 
+    if len(rows) == 0:
+        print("Nenhum jogo encontrado com valor menor.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
+            
 
 def Procurar_Idade():
     Escolha = input("Digite a faixa etária do jogo: ")
     sql = f''' SELECT * FROM tb_jogos WHERE faixa_etaria <= "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(row)
 
+    if len(rows) == 0:
+        print("Nenhum jogo encontrado com a faixa etária informado.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
+            
 
 def Procurar_developer():
     Escolha = input("Digite o produtor(a) do jogo: ")
     sql = f''' SELECT * FROM tb_jogos WHERE developer = "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(row)
+
+    if len(rows) == 0:
+        print("Nenhum jogo encontrado com o Desenvolvedor informado.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')           
 
 
 def Procurar_data_lanc():
@@ -112,27 +132,39 @@ def Procurar_data_lanc():
     sql = f''' SELECT * FROM tb_jogos WHERE data_lanc  = "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(row)
 
+    if len(rows) == 0:
+        print("Nenhum jogo publicado na data informada.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
+            
 
 def Procurar_plataformas():
     Escolha = input("Digite o gênero do jogo: ")
     sql = f''' SELECT * FROM tb_jogos WHERE plataformas  = "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(row)
 
+    if len(rows) == 0:
+        print("Nenhum jogo lançado na plataforma informada.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
+            
 
 def Procurar_Genero():
     Escolha = input("Digite o gênero do jogo: ")
     sql = f''' SELECT * FROM tb_jogos WHERE genre  = "{Escolha}" '''
     cursor_db.execute(sql)
     rows = cursor_db.fetchall()
-    for row in rows:
-        print(row)
 
+    if len(rows) == 0:
+        print("Nenhum jogo encontrado com o Genero informado.")
+    else:
+        for row in rows:
+            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
+            
 
 def Update_tb_jogos(cursor_db, conex_db):
     escolha = input("Digite o ID do jogo que deseja atualizar: ")
@@ -316,12 +348,139 @@ def Ver_tudo():
     for row in rows:
         print(row)
 
+def linha():
+    print("="*90)
+
+def Menu():
+    while True:
+        linha()
+        try:
+            escolha = int(input("""Escolha a funcionalidade desejada: 
+
+[1] - Procure um jogo
+[2] - Procure um usuário
+[3] - Carrinho
+
+[0] - Funcionalidades de desenvolvedor
+"""))
+            linha()
+        except ValueError:
+            print("Valor inválido")
+        
+        if escolha == 1:
+            Info_Jogos()
+            
+        if escolha == 2:
+            Info_Usuario()
+        
+        if escolha == 0:
+            Funcoes_Dev()
+            
+def Info_Jogos():
+    try:
+        escolha = int(input("""Escolha uma das opções: 
+
+[1] - ID
+[2] - Nome
+[3] - Preço
+[4] - Faixa etária
+[5] - Gênero
+"""))
+        
+        linha()
+        if escolha == 1:
+            Procurar_ID_Jogo()
+        elif escolha == 2:
+            Procurar_Nome_Jogo()
+        elif escolha == 3:
+            Procurar_Preco()
+        elif escolha == 4: 
+            Procurar_Idade()
+        elif escolha == 5:
+            Procurar_Genero()
+            
+    except ValueError:
+        print("Valor inválido")
+
+def Info_Usuario():
+    try:
+        escolha = int(input("""Escolha uma das opções: 
+
+[1] - ID
+[2] - Nome         
+"""))
+
+        linha()
+        if escolha == 1:
+            Procurar_ID_Usuario()
+        elif escolha == 2:
+            Procurar_Nome_Usuario()
+
+    except ValueError:
+        print("Valor inválido")
+
+def Funcoes_Dev():
+    try:
+        escolha = int(input("""Escolha uma das opções: 
+
+[1] - Jogo
+[2] - Usuário
+"""))
+
+        if escolha == 1:
+            Funcoes_Jogo()
+        elif escolha == 2:
+            Funcoes_Usuario()
+            
+    except ValueError:
+        print("Valor inválido")
+
+def Funcoes_Jogo():
+    try:
+        escolha = int(input("""Escolha uma das opções: 
+
+[1] - Inserir 
+[2] - Remover      
+[3] - Atualizar
+"""))
+
+        linha()
+        if escolha == 1:
+            Insert_table_jogos(cursor_db, conex_db)
+        elif escolha == 2:
+            delete_tb_jogos(cursor_db, conex_db)
+        elif escolha == 3:
+            Update_tb_jogos(cursor_db, conex_db)
+
+    except ValueError:
+        print("Valor inválido")
+    
+def Funcoes_Usuario():
+    try:
+        escolha = int(input("""Escolha uma das opções: 
+
+[1] - Inserir 
+[2] - Remover      
+[3] - Atualizar
+"""))
+
+        linha()
+        if escolha == 1:
+            Insert_table_user(cursor_db, conex_db)
+        elif escolha == 2:
+            delete_tb_user(cursor_db, conex_db)
+        elif escolha == 3:
+            Update_tb_user(cursor_db, conex_db)
+
+    except ValueError:
+        print("Valor inválido")
 
 # -----------------------------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
     conex_db = conection_db()
     cursor_db = conex_db.cursor()
+    Menu()
 
     # Criando as tabelas (Ricardo)
     #create_db()
