@@ -226,11 +226,10 @@ def Procurar_Nome_Usuario():
     rows = cursor_db.fetchall()
 
     if len(rows) == 0:
-        print("Nenhum usuário encontrado com o Nome informado.")
+        print("Nenhum usuário encontrado com o ID informado.")
     else:
         for row in rows:
-            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
-
+            print(f'ID: {row[0]} | Nome: {row[1]} | Idade: {row[2]} | País: {row[3]} | Status: {row[4]} | Developer {row[5]} ')
 
 def Procurar_ID_Usuario():
     Escolha = input("Digite o ID do usuário: ")
@@ -242,7 +241,7 @@ def Procurar_ID_Usuario():
         print("Nenhum usuário encontrado com o ID informado.")
     else:
         for row in rows:
-            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')
+            print(f'ID: {row[0]} | Nome: {row[1]} | Idade: {row[2]} | País: {row[3]} | Status: {row[4]} | Developer {row[5]} ')
 
 
 def Update_tb_user(cursor_db, conex_db):
@@ -371,7 +370,6 @@ def Menu():
 
 [1] - Procure um jogo
 [2] - Procure um usuário
-[3] - Carrinho
 
 [0] - Funcionalidades de desenvolvedor
 """))
