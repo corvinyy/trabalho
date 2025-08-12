@@ -1,5 +1,5 @@
 import mysql.connector
-
+    
 def create_db():
     create = '''CREATE DATABASE IF NOT EXISTS db_Wixus'''
     cursor_db.execute(create)
@@ -231,6 +231,7 @@ def Procurar_Nome_Usuario():
         for row in rows:
             print(f'ID: {row[0]} | Nome: {row[1]} | Idade: {row[2]} | País: {row[3]} | Status: {row[4]} | Developer {row[5]} ')
 
+
 def Procurar_ID_Usuario():
     Escolha = input("Digite o ID do usuário: ")
     sql = f''' SELECT * FROM tb_user WHERE id_user = "{Escolha}" '''
@@ -262,92 +263,6 @@ def delete_tb_user(cursor_db, conex_db):
     conex_db.commit()
     print(f'Dados do usuario com ID {escolha} deletados')
 
-
-# --------------------------------------------CARRINHO--------------------------------------------------------
-
-def create_tb_cart(cursor_db):
-    create = '''CREATE TABLE IF NOT EXISTS tb_cart(
-            id_cart INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            id_jogos INT NOT NULL,
-            id_user INT NOT NULL,
-            preco_uni DECIMAL(9,2),
-            forma_pagamento VARCHAR(30),
-            FOREIGN KEY (id_jogos) REFERENCES tb_jogos(id_jogo),
-            FOREIGN KEY (id_user) REFERENCES tb_user(id_user)
-            )'''
-    cursor_db.execute(create)
-    print("Tabela Cart criada")
-
-
-def Insert_table_cart(cursor_db, conex_db):
-
-    forma_pagamento = input("Digite a forma de pagamento: ")
-    id_jogos = int(input('Digite o ID jogo que deseja adicionar ao carrinho: '))
-    id_user = int(input("Digite o id do usuario: "))
-    cursor_db.execute("SELECT price, name FROM tb_jogos WHERE id_jogo = %s", (id_jogos,))
-    linha = cursor_db.fetchone()
-
-    if linha:
-        preco = linha
-
-        insert_query = '''
-        INSERT INTO tb_cart (id_jogos, id_user, preco_uni, forma_pagamento)
-        VALUES (%s, %s, %s, %s)
-        '''
-        cursor_db.execute(insert_query, (id_jogos, id_user, preco, forma_pagamento))
-        conex_db.commit()
-        print("Jogo adicionado ao carrinho com sucesso")
-    else:
-        print("Não foi possivel encontrar um jogo com esse ID.")
-
-
-def Procurar_Produtos():
-    Escolha = input("Digite o ID do usuário: ")
-    sql = f''' SELECT * FROM tb_carrinho_compras WHERE id_cart = "{Escolha}" '''
-    cursor_db.execute(sql)
-    rows = cursor_db.fetchall()
-
-    if len(rows) == 0:
-        print("Nenhum carrinho encontrado com o ID informado.")
-    else:
-        for row in rows:
-            print(f'Id: {row[0]} | Nome: {row[1]} | Preço: {row[2]} | Faixa Etária: {row[3]} | Desenvolvedor: {row[4]} | Data de Lançamento: {row[5]} | Plataformas: {row[6]} | Gênero: {row[7]} |')           
-
-
-def Update_tb_cart(cursor_db, conex_db):
-    escolha = input("Digite o ID do carrinho que deseja atualizar: ")
-    escolha_coluna = input("Digite a coluna que deseja atualizar (preco_total, forma_pagamento): ")
-    novo_valor = input(f"Digite o novo valor para {escolha_coluna}: ")
-    sql = f'''UPDATE tb_cart SET {escolha_coluna} = %s WHERE id_cart = %s'''
-    dados = (novo_valor, escolha)
-    cursor_db.execute(sql, dados)
-    conex_db.commit()
-    print(f'Dados do carrinho com ID {escolha} atualizados')
-
-
-def delete_tb_cart(cursor_db, conex_db):
-    escolha = input("Digite o ID do jogo que deseja deletar: ")
-    sql = f'''DELETE FROM tb_cart WHERE id_cart = "{escolha}" '''
-    cursor_db.execute(sql)
-    conex_db.commit()
-    print(f'Dados do carrinho com ID {escolha} deletados')
-
-
-def preco_total():
-    id_user = int(input("Digite o ID do usuário: "))
-
-    sql = '''SELECT SUM(preco_uni) AS total
-        FROM tb_cart
-        WHERE id_user = %s
-        '''
-    cursor_db.execute(sql, (id_user,))
-    resultado = cursor_db.fetchone()
-
-    if resultado[0] is not None:
-        print(f"Total do usuário {id_user}: R$ {resultado[0]}")
-    else:
-        print(f"Usuário {id_user} não encontrado ou carrinho vazio.")
-    
 
 # ---------------------------------------------GERAL---------------------------------------------------------
 
@@ -491,65 +406,3 @@ if __name__ == '__main__':
     conex_db = conection_db()
     cursor_db = conex_db.cursor()
     Menu()
-
-    # Criando as tabelas (Ricardo)
-    #create_db()
-    #create_tb_jogos(cursor_db)
-    #create_tb_user(cursor_db)
-    #create_tb_cart(cursor_db)
-
-    # Insertando dados nas tabelas (Rafael)
-    #Insert_table_jogos(cursor_db, conex_db)
-    #Insert_table_user(cursor_db, conex_db)
-    #Insert_table_cart(cursor_db, conex_db)
-
-    # Atualizando os dados nas tabelas (Rafael)
-    #Update_tb_jogos(cursor_db, conex_db)
-    #Update_tb_user(cursor_db, conex_db)
-    #Update_tb_cart(cursor_db, conex_db)
-
-    # Removendo os dados das tabelas (Rafael)
-    #delete_tb_jogos(cursor_db, conex_db)
-    #delete_tb_cart(cursor_db, conex_db)
-    #delete_tb_user(cursor_db, conex_db)
-
-    # Procurando por informações nos jogos (Mateus)
-    #Procurar_ID_Jogo()
-    #Procurar_Nome_Jogo()
-    #Procurar_Preco()
-    #Procurar_Idade()
-    #Procurar_developer()
-    #Procurar_data_lanc()
-    #Procurar_plataformas()
-    #Procurar_Genero()
-
-    # Procurar informações dos usuários (Mateus)
-    #Procurar_ID_Usuario()
-    #Procurar_Nome()
-
-    # Procurar informações no carrinho (Mateus)
-    #Procurar_Produtos()
-    
-    #Retorna o valor total dos jogos no carrinho (Ricardo)
-    #preco_total()
-
-    # Ver tudo (Mateus)
-    #Ver_tudo()
-
-    # Instruções para trouxas (Rafael)
-
-    # Para criar o banco de dados no seu pc, baixe o mysql-connector-python e o mysql-server NA MESMA VERSÂO DO SEU PYTHON
-    # Instale o mysql-connector-python com o comando: pip install mysql-connector-python
-    # Instale o mysql-server com o comando: sudo apt install mysql-server
-    # Para coferir a versao use o comando: get-command python
-    # Então crie uma database no mysql com o nome db_Wixus (ou oq achar melhor) e a senha q tu quiser mas caso as mesmas sejam diferentes, mude no código
-
-    # A primeira vez que você for rodar o código, descomente as linhas de create e COMENTE a database no início do código
-    # Depois disso comente os create e descomente a database no início do código
-    # A inserção da data de lançamento está no formato YYYY-MM-DD, year, month e day
-    # Deixei todas as funções prontas para serem usadas entao caso queira testar alguma coisa, basta comente as paradas que tu não vai usar
-    # O update das tabelas foi feito com escolhas de colunas, se isso dificultar no tkinter, tu q se lasque (me fala q eu faço o de cada um)
-    # Todos os comandos funcionais entam após o main então tudo que quiser usar vai estar lá, se nn tiver, é pq eu não tem
-
-    # Ja avisando que se tiver faltando algum select ou table é td culpa do Ricardo (do Mateus tbm mas isso é de menos), que não fez as paradas direito
-    # Se tiver faltando algum insert, update ou delete é culpa do Rafael que tambem não faz as paradas direito
